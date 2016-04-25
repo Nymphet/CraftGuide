@@ -21,10 +21,10 @@ import uristqwerty.CraftGuide.api.RecipeProvider;
 import uristqwerty.CraftGuide.api.RecipeTemplate;
 import uristqwerty.CraftGuide.api.Slot;
 import uristqwerty.CraftGuide.api.SlotType;
-import buildcraft.api.recipes.BuildcraftRecipeRegistry;
-import buildcraft.api.recipes.IAssemblyRecipeManager;
-import buildcraft.api.recipes.IIntegrationRecipeManager;
-import buildcraft.api.recipes.IRefineryRecipeManager;
+import buildcraft.api.recipes.BuildcraftRecipes;
+import buildcraft.api.recipes.IAssemblyRecipeManager.IAssemblyRecipe;
+import buildcraft.api.recipes.IIntegrationRecipeManager.IIntegrationRecipe;
+import buildcraft.api.recipes.IRefineryRecipeManager.IRefineryRecipe;
 
 public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProvider
 {
@@ -72,7 +72,7 @@ public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProv
 	{
 		int maxInput = 1;
 
-		for(IAssemblyRecipeManager recipe: BuildcraftRecipeRegistry.assemblyTable.getRecipes())
+		for(IAssemblyRecipe recipe: BuildcraftRecipes.assemblyTable.getRecipes())
 		{
 			maxInput = Math.max(maxInput, recipe.getInputs().length);
 		}
@@ -98,7 +98,7 @@ public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProv
 		RecipeTemplate template = generator.createRecipeTemplate(recipeSlots, table);
 		template.setSize(79, rows > 3? 58 + (rows - 3) * 18 : 58);
 
-		for(IAssemblyRecipeManager recipe: BuildcraftRecipeRegistry.assemblyTable.getRecipes())
+		for(IAssemblyRecipe recipe: BuildcraftRecipes.assemblyTable.getRecipes())
 		{
 			Object[] recipeContents = new Object[rows * 3 + 3];
 			Object[] input = recipe.getInputs();
@@ -119,7 +119,7 @@ public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProv
 	{
 		try
 		{
-			IIntegrationRecipeManager.class.getMethod("getComponents");
+			IIntegrationRecipe.class.getMethod("getComponents");
 			addIntegrationRecipes_bc6(generator, table, laser);
 		}
 		catch(NoSuchMethodException e)
@@ -146,12 +146,12 @@ public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProv
 
 	private void addIntegrationRecipes_bc6(RecipeGenerator generator, ItemStack table, ItemStack laser) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
 	{
-		Method getComponents = IIntegrationRecipeManager.class.getMethod("getComponents");
-		Method getOutput = IIntegrationRecipeManager.class.getMethod("getOutputForInputs", ItemStack.class, ItemStack.class, ItemStack[].class);
+		Method getComponents = IIntegrationRecipe.class.getMethod("getComponents");
+		Method getOutput = IIntegrationRecipe.class.getMethod("getOutputForInputs", ItemStack.class, ItemStack.class, ItemStack[].class);
 
 		int maxComponents = 0;
 
-		for(IIntegrationRecipeManager recipe: BuildcraftRecipeRegistry.integrationTable.getRecipes())
+		for(IIntegrationRecipe recipe: BuildcraftRecipes.integrationTable.getRecipes())
 		{
 			ItemStack[] components = (ItemStack[])getComponents.invoke(recipe);
 			maxComponents = Math.max(maxComponents, components.length);
@@ -166,7 +166,7 @@ public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProv
 			template.setSize(79, 58 + (slotRows(maxComponents + 2) - 3) * 18);
 		}
 
-		for(IIntegrationRecipeManager recipe: BuildcraftRecipeRegistry.integrationTable.getRecipes())
+		for(IIntegrationRecipe recipe: BuildcraftRecipes.integrationTable.getRecipes())
 		{
 			ItemStack a[] = recipe.getExampleInputsA();
 			ArrayList<ItemStack> inputA = new ArrayList<ItemStack>(a.length);
@@ -368,7 +368,7 @@ public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProv
 		RecipeTemplate templateOneInput = generator.createRecipeTemplate(recipeSlotsOneInput, refinery);
 		RecipeTemplate templateTwoInputs = generator.createRecipeTemplate(recipeSlotsTwoInputs, refinery);
 
-		for(IRefineryRecipeManager recipe: BuildcraftRecipeRegistry.refinery.getRecipes())
+		for(IRefineryRecipe recipe: BuildcraftRecipes.refinery.getRecipes())
 		{
 			boolean twoInputs = recipe.getIngredient2() != null;
 			Object[] recipeContents = new Object[twoInputs? 4 : 3];

@@ -45,20 +45,21 @@ minecraft {
     replace '@MOD_VERSION@', project.version
 }
 
+configurations {
+    compile.extendsFrom exportedCompile
+}
+
 repositories {
     maven {
         name = 'Player\'s Repo'
         url = 'http://maven.ic2.player.to/'
     }
-    ivy {
-        name "BuildCraft"
-        artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
-    }
 }
 
 dependencies {
-    compile 'com.mod-buildcraft:buildcraft:7.2.5:dev'
+//    compile 'com.mod-buildcraft:buildcraft:7.2.5:dev'
     compile 'net.industrial-craft:industrialcraft-2:2.3.226-ex18:dev'
+    compile fileTree(dir: 'lib', include: '*.jar')
 }
 
 task themeZip(type: Zip) {
