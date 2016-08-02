@@ -77,8 +77,9 @@ public class LiquidFilter implements ItemFilter
 			TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
 
 			Fluid fluid = liquid.getFluid();
-			TextureAtlasSprite icon = fluid.getStillIcon();
-
+			//TextureAtlasSprite icon = fluid.getStillIcon();
+			TextureAtlasSprite icon = null;
+			
 			if(icon != null)
 			{
 				textureManager.bindTexture(TextureMap.locationBlocksTexture);
