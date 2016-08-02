@@ -2,6 +2,7 @@ package uristqwerty.CraftGuide.recipes;
 
 import ic2.api.item.IC2Items;
 import ic2.api.recipe.IMachineRecipeManager;
+import ic2.api.recipe.IMachineRecipeManager.RecipeIoContainer;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.IScrapboxManager;
 import ic2.api.recipe.RecipeOutput;
@@ -67,8 +68,8 @@ public class IC2ExperimentalRecipes extends CraftGuideAPIObject implements Recip
 			addMachineRecipes(generator, IC2Items.getItem("compressor"), getCompressor(), Recipes.compressor);
 			addMachineRecipes(generator, IC2Items.getItem("centrifuge"), Recipes.centrifuge);
 			addMachineRecipes(generator, IC2Items.getItem("blockcutter"), Recipes.blockcutter);
-			addMachineRecipes(generator, IC2Items.getItem("blastfurance"), Recipes.blastfurance);
-			addMachineRecipes(generator, IC2Items.getItem("recycler"), Recipes.recycler);
+			addMachineRecipes(generator, IC2Items.getItem("blastfurnace"), Recipes.blastfurnace);
+			//addMachineRecipes(generator, IC2Items.getItem("recycler"), Recipes.recycler);
 			addMachineRecipes(generator, IC2Items.getItem("metalformer"), Recipes.metalformerExtruding);
 			addMachineRecipes(generator, IC2Items.getItem("metalformer"), Recipes.metalformerCutting);
 			addMachineRecipes(generator, IC2Items.getItem("metalformer"), Recipes.metalformerRolling);
@@ -186,8 +187,10 @@ public class IC2ExperimentalRecipes extends CraftGuideAPIObject implements Recip
 
 		int maxOutput = 1;
 
-		for(RecipeOutput output: recipeManager.getRecipes().values())
+		//for(RecipeOutput output: recipeManager.getRecipes().values())
+		for(RecipeIoContainer recipeIoContainer: recipeManager.getRecipes())
 		{
+			RecipeOutput output = recipeIoContainer.output;
 			maxOutput = Math.max(maxOutput, output.items.size());
 		}
 
@@ -212,13 +215,15 @@ public class IC2ExperimentalRecipes extends CraftGuideAPIObject implements Recip
 
 		RecipeTemplate template = generator.createRecipeTemplate(recipeSlots, type);
 
-		for(Entry<IRecipeInput, RecipeOutput> recipe: recipeManager.getRecipes().entrySet())
+		//for(Entry<IRecipeInput, RecipeOutput> recipe: recipeManager.getRecipes())
+		for(RecipeIoContainer recipeIoContainer: recipeManager.getRecipes())
 		{
+
 			Object[] recipeContents = new Object[maxOutput + 3];
-			recipeContents[0] = recipe.getKey().getInputs();
+			recipeContents[0] = recipeIoContainer.input.getInputs();
 			recipeContents[1] = machine;
 			recipeContents[2] = null;
-			List<ItemStack> output = recipe.getValue().items;
+			List<ItemStack> output = recipeIoContainer.output.items;
 
 			for(int i = 0; i < Math.min(maxOutput, output.size()); i++)
 			{
@@ -254,7 +259,7 @@ public class IC2ExperimentalRecipes extends CraftGuideAPIObject implements Recip
 
 	private void addCraftingRecipes(RecipeGenerator generator) throws ClassNotFoundException, SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException
 	{
-		Class advancedRecipe = Class.forName("ic2.core.AdvRecipe");
+		Class advancedRecipe = Class.forName("ic2.core.recipe.AdvRecipe");
 		Field outputField = advancedRecipe.getField("output");
 		Field inputField = advancedRecipe.getField("input");
 		Field widthField = advancedRecipe.getField("inputWidth");
@@ -267,7 +272,7 @@ public class IC2ExperimentalRecipes extends CraftGuideAPIObject implements Recip
 		}
 		catch(NoSuchFieldException e){}
 
-		Class shapelessRecipe = Class.forName("ic2.core.AdvShapelessRecipe");
+		Class shapelessRecipe = Class.forName("ic2.core.recipe.AdvShapelessRecipe");
 		Field shapelessInput = shapelessRecipe.getField("input");
 		Field shapelessOutput = shapelessRecipe.getField("output");
 		Method shapelessCanShow = shapelessRecipe.getMethod("canShow");
