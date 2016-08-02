@@ -67,7 +67,8 @@ public class GuiRenderer extends RendererBase implements uristqwerty.CraftGuide.
 	{
 		if(textureID != -1)
 		{
-            GlStateManager.func_179144_i(textureID);
+            GlStateManager.bindTexture(textureID);
+			//GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 		}
 	}
 
@@ -95,7 +96,8 @@ public class GuiRenderer extends RendererBase implements uristqwerty.CraftGuide.
 	@Override
 	public void drawTextWithShadow(String text, int x, int y)
 	{
-		Minecraft.getMinecraft().fontRendererObj.func_175063_a(text, x, y, currentColor());
+		//Minecraft.getMinecraft().fontRendererObj.func_175063_a(text, x, y, currentColor());
+		Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(text, x, y, currentColor());
 	}
 
 	private int currentColor()
@@ -254,12 +256,12 @@ public class GuiRenderer extends RendererBase implements uristqwerty.CraftGuide.
 		}
 
 		RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
-		itemRenderer.func_180450_b(itemStack, 0, 0);
+		itemRenderer.renderItemAndEffectIntoGUI(itemStack, 0, 0);
 
 		if(renderOverlay)
 		{
 			String count = null; // TODO: arbitrary-text-for-stacksize looks interesting. Expose?
-			itemRenderer.func_180453_a(Minecraft.getMinecraft().fontRendererObj, itemStack, 0, 0, count);
+			itemRenderer.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj, itemStack, 0, 0, count);
 		}
 
 		return itemStack;
