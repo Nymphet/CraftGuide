@@ -58,7 +58,7 @@ repositories {
 
 dependencies {
 //    compile 'com.mod-buildcraft:buildcraft:7.2.5:dev'
-    compile 'net.industrial-craft:industrialcraft-2:2.3.226-ex18:dev'
+    compile 'net.industrial-craft:industrialcraft-2:2.3.262-ex18:dev'
     compile fileTree(dir: 'lib', include: '*.jar')
 }
 
@@ -79,11 +79,11 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
         include 'litemod.json'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version, 'llrevision':project.llrevision, 'revision':ver.revision
     }
-        
+
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
