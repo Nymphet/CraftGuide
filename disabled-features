@@ -1,0 +1,7 @@
+buildcraft recipes (causing build errors. But I don't have BC installed on my server anyway, so didn't fix that)
+
+IC2 exp recycler recipes (it only produces scrap... and cause gameplay errors)
+
+some liquid icons? (class Fluid doesn't have a getStillIcon() method... causing build errors. 
+didn't know why and coudn't find a replacement so I just disabled it (by setting the icon directly to 'null'))
+(but i didn't find what's influenced in the gameplay)
