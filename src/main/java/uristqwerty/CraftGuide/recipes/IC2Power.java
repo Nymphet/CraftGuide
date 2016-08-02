@@ -1,5 +1,6 @@
 package uristqwerty.CraftGuide.recipes;
 
+//import ic2.api.info.Info;
 import ic2.api.info.Info;
 import ic2.api.item.IElectricItem;
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,8 @@ public class IC2Power implements StackInfoSource
 		}
 		else
 		{
-			double power = Info.itemEnergy.getEnergyValue(itemStack);
+			//double power = Info.itemEnergy.getEnergyValue(itemStack);
+			double power = Info.itemInfo.getEnergyValue(itemStack);
 
 			if(power > 0)
 			{
