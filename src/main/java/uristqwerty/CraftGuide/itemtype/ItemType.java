@@ -154,6 +154,10 @@ public class ItemType implements Comparable<ItemType>
 
 		if(type == null)
 		{
+			if(stack.get(0) == null)
+			{
+				return errType_unknownType;
+			}
 			type = new ItemType(stack);
 			generalArrayLists.put(stack, type);
 		}
