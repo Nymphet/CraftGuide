@@ -72,7 +72,8 @@ public class BuildCraftRecipes extends CraftGuideAPIObject implements RecipeProv
 	{
 		int maxInput = 1;
 
-		for(IAssemblyRecipeManager recipe: BuildcraftRecipeRegistry.assemblyTable.getRecipes())
+		//for(IAssemblyRecipeManager recipe: BuildcraftRecipeRegistry.assemblyTable.getRecipes())
+		for(IAssemblyRecipeManager recipe: BuildcraftRecipeRegistry.assemblyTable)
 		{
 			maxInput = Math.max(maxInput, recipe.getInputs().length);
 		}
